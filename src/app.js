@@ -27,7 +27,7 @@ export default class AppScreen extends Component {
         
     };
  componentWillMount(){
-    this.goToMainScreen();
+    this.goToLoginScreen();
  }
 
  goToMainScreen(){
