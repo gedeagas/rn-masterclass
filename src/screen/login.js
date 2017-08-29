@@ -4,7 +4,9 @@ import {
   AppRegistry,
   StyleSheet,
   Text,
-  View
+  View,
+  Alret,
+  Button
 } from 'react-native';
 
 const FBSDK = require('react-native-fbsdk');
@@ -13,10 +15,39 @@ const {
   AccessToken
 } = FBSDK;
 
+import {
+  NavigationActions
+} from 'react-navigation';
+
 export default class LoginScreen extends Component {
+  static navigationOptions = {
+    title: 'Login Function',
+    header: null,
+    
+  };
+  callFromApi(){
+
+  }
+
+  goToMainScreen(){
+    const resetAction = NavigationActions.reset({
+        index: 0,
+        actions: [
+            NavigationActions.navigate({ routeName: 'Main'})
+        ]
+        })
+    this.props.navigation.dispatch(resetAction)
+ }
+
   render() {
     return (
       <View style={styles.container}>
+        <Button
+          onPress={this.goToMainScreen.bind(this)}
+          title="Learn More"
+          color="#fff"
+          accessibilityLabel="Learn more about this purple button"
+        />
         <LoginButton
           publishPermissions={["publish_actions"]}
           onLoginFinished={
@@ -26,6 +57,7 @@ export default class LoginScreen extends Component {
               } else if (result.isCancelled) {
                 alert("login is cancelled.");
               } else {
+                this.goToMainScreen();
                 AccessToken.getCurrentAccessToken().then(
                   (data) => {
                     alert(data.accessToken.toString())
@@ -34,7 +66,7 @@ export default class LoginScreen extends Component {
               }
             }
           }
-          onLogoutFinished={() => alert("logout.")}/>
+          onLogoutFinished={() => this.callFromApi()}/>
       </View>
     );
   }
@@ -45,6 +77,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: 'center',
     alignItems: 'center',
-    backgroundColor: '#F5FCFF',
+    backgroundColor: '#00C752',
   },
 });
